@@ -46,17 +46,103 @@ The dashboard helps stakeholders monitor:
 
 ---
 
-## 📂 Data Model
+## 📂 Data Source
+
+The dashboard uses the Codebasics Hospitality Analysis Challenge dataset for AtliQ Grands representing a hotel chain operating across multiple cities in India.
 
 ### Fact Tables
-- `fact_bookings`
-- `fact_aggregated_bookings`
+
+#### fact_bookings
+Individual booking-level transaction data.
+
+| Column |
+|----------|
+| booking_id |
+| property_id |
+| booking_date |
+| check_in_date |
+| checkout_date |
+| no_guests |
+| room_category |
+| booking_platform |
+| ratings_given |
+| booking_status |
+| revenue_generated |
+| revenue_realized |
+
+#### fact_aggregated_bookings
+Aggregated occupancy and capacity information.
+
+| Column |
+|----------|
+| property_id |
+| check_in_date |
+| room_category |
+| successful_bookings |
+| capacity |
+
+---
 
 ### Dimension Tables
-- `dim_hotels`
-- `dim_rooms`
-- `dim_date`
 
+#### dim_hotels
+
+| Column |
+|----------|
+| property_id |
+| property_name |
+| category |
+| city |
+
+#### dim_rooms
+
+| Column |
+|----------|
+| room_id |
+| room_class |
+
+#### dim_date
+
+| Column |
+|----------|
+| date |
+| mmm yy |
+| week no |
+| day_type |
+
+---
+
+### Data Model Overview
+
+The project follows a **Star Schema** design:
+
+```text
+                 dim_date
+                     │
+                     │
+                     ▼
+            fact_bookings
+                     ▲
+                     │
+    ┌────────────┬────────────┐
+    │            │            │
+    ▼            ▼            ▼
+dim_hotels   dim_rooms   booking_platform
+
+                     ▲
+                     │
+                     │
+      fact_aggregated_bookings
+                     │
+                     ▼
+               dim_hotels
+```
+
+**Key Relationships**
+- `property_id` → connects hotel dimensions with booking facts.
+- `room_category / room_class` → enables room-level analysis.
+- `date fields` → support trend and time-series reporting.
+- `booking_platform` → enables channel contribution analysis.
 ---
 
 ## 📊 Dashboard Pages
