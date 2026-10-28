@@ -285,4 +285,4 @@ This dashboard enables hotel stakeholders to:
 
 **Khup Sang**
 
-Power BI • Data Analytics • 
+Sales Performance Analyst • Power BI Analyst • Data Analytics • 
